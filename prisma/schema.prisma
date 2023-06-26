@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pedido {
+  id       Int       @id
+  email    String?   @db.VarChar(200)
+  pedido   String?   @db.VarChar(1000)
+  usuarios Usuario? @relation(fields: [email], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_email_usuario")
+
+  @@map("pedidos")
+}
+
+model Usuario {
+  id      Int       @id
+  nome    String?   @db.VarChar(100)
+  email   String?   @unique(map: "uk_usuario_email") @db.VarChar(200)
+  senha   String?   @db.VarChar(100)
+  pedidos Pedido[]
+
+  @@map("usuarios")
+}
