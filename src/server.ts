@@ -12,6 +12,18 @@ app.get("/user", async (req, res) => {
     res.json(users);
 });
 
+app.post("/user", async (req, res) => {
+    await prisma.usuario.create({
+        data: {
+            nome: "Teste",
+            email: "teste@gmail.com",
+            senha: "teste123"
+        }
+    });
+
+    res.status(201).send();
+});
+
 const PortEnv = process.env.PORT;
 
 app.listen(PortEnv, () => console.log("Servidor Rodando com Sucesso!"));
